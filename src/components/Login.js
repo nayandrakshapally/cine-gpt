@@ -6,7 +6,9 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
+  const navigate = useNavigate();
   const [isSigninForm, setIsSigninForm] = useState(true);
   const [emailErrMsg, setEmailErrMsg] = useState(null);
   const [passwordErrMsg, setPasswordErrMsg] = useState(null);
@@ -36,6 +38,7 @@ const Login = () => {
           // Signed up
           const user = userCredential.user;
           console.log("user", user);
+          navigate('/browse');
           // ...
         })
         .catch((error) => {
@@ -55,7 +58,7 @@ const Login = () => {
           // Signed in
           const user = userCredential.user;
           console.log("user", user);
-
+          navigate('/browse');
           // ...
         })
         .catch((error) => {
@@ -76,7 +79,7 @@ const Login = () => {
       </div>
       <div className="flex justify-center text-white">
         <form
-          className="w-4/12 absolute p-16 bg-black my-44 rounded-lg bg-opacity-80"
+          className="absolute p-16 bg-black my-44 rounded-lg bg-opacity-80 w-4/12"
           onSubmit={submitForm}
         >
           <h1 className="text-4xl py-4 font-medium">
