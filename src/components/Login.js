@@ -12,6 +12,7 @@ const Login = () => {
   const [isSigninForm, setIsSigninForm] = useState(true);
   const [emailErrMsg, setEmailErrMsg] = useState(null);
   const [passwordErrMsg, setPasswordErrMsg] = useState(null);
+  const [errMsg, setErrMsg] = useState(null);
 
   const email = useRef(null);
   const password = useRef(null);
@@ -44,7 +45,7 @@ const Login = () => {
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          alert(errorCode + errorMessage);
+          setErrMsg(errorCode + errorMessage);
           // ..
         });
     } else {
@@ -64,7 +65,7 @@ const Login = () => {
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          alert(errorCode + errorMessage);
+          setErrMsg(errorCode + errorMessage);
         });
     }
   };
@@ -106,6 +107,7 @@ const Login = () => {
             className="p-4 my-3 w-full bg-gray-800"
           />
           <p className="text-red-600 font-bold my-0">{passwordErrMsg}</p>
+          <p className="text-red-600 font-bold my-0">{errMsg}</p>
           <button className="p-4 my-6 bg-red-700 w-full rounded-lg">
             {isSigninForm ? "Sign In" : "Sign Up"}
           </button>
