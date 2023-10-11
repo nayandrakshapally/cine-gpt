@@ -6,18 +6,21 @@ import { useSelector } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
+import { toggleGptSearchView } from "../utils/gptSlice";
+import { changeLanguage } from "../utils/configSlice";
 
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const user = useSelector((store) => store.user);
+  const showGptSearch = useSelector((store)=>store.gpt?.showGptSearch);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         const { uid, email, displayName } = user;
         dispatch(addUser({ uid: uid, email: email, name: displayName }));
-        navigate('/browse');
+        navigate("/browse");
       } else {
         //user signed out
         dispatch(removeUser());
@@ -26,6 +29,9 @@ const Header = () => {
     });
     return () => unsubscribe();
   }, []);
+  const toggleGptSearch = () => {
+    dispatch(toggleGptSearchView());
+  };
   const onSignOut = () => {
     signOut(auth)
       .then(() => {
@@ -45,9 +51,22 @@ const Header = () => {
       />
       {user && (
         <div className="flex p-2">
-          <span className="text-yellow-200">{user?.email}</span>
+          {showGptSearch && <select
+            className="bg-gray-300 my-2 py-2 px-4 mx-4 rounded-lg"
+            onChange={(e) => dispatch(changeLanguage(e.target.value))}
+          >
+            <option value="en">English</option>
+            <option value="sp">Spanish</option>
+          </select>}
+          <button
+            className="bg-blue-800 text-white my-2 py-2 px-4 mx-4 rounded-lg"
+            onClick={toggleGptSearch}
+          >
+            {showGptSearch ? 'Home': 'GPT Search'}
+          </button>
+          <span className="text-yellow-200 my-4">{user?.email}</span>
           <span
-            className="text-yellow-50 font-semibold cursor-pointer"
+            className="text-yellow-50 font-semibold cursor-pointer my-4"
             onClick={onSignOut}
           >
             &nbsp;&nbsp;Sign Out

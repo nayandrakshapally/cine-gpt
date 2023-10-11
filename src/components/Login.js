@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import {BG_IMG_URL} from "../utils/constants";
 // import { useNavigate } from "react-router-dom";
 const Login = () => {
   // const navigate = useNavigate();
@@ -74,7 +75,7 @@ const Login = () => {
       <Header />
       <div className="absolute">
         <img
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/9db4a880-3034-4e98-bdea-5d983e86bf52/eb27ceac-5f53-400f-94ac-8ffc6d354e6a/US-en-20230925-popsignuptwoweeks-perspective_alpha_website_large.jpg"
+          src={BG_IMG_URL}
           alt="background"
         />
       </div>

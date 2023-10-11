@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { API_OPTIONS } from "../utils/constants";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addTrendingMovies } from "../utils/moviesSlice";
 
 const useTrendingMovies = () => {
     const dispatch = useDispatch();
+    const trendingMovie = useSelector((store) => store.movies.trendingMovies);
   const trendingMovies = async () => {
     const data = await fetch(
       "https://api.themoviedb.org/3/movie/popular?page=1",
@@ -15,7 +16,7 @@ const useTrendingMovies = () => {
     dispatch(addTrendingMovies(json.results))
   };
   useEffect(() => {
-    trendingMovies();
+    !trendingMovie && trendingMovies();
   }, []);
 };
 export default useTrendingMovies;
